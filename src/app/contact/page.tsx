@@ -39,6 +39,7 @@ export default function ContactPage() {
       </p>
 
       <form onSubmit={onSubmit} className="mt-6 grid gap-4 max-w-xl">
+        <input name="company" className="hidden" tabIndex={-1} autoComplete="off" />
         <input name="name" required placeholder="Your name" className="border rounded-xl p-3" />
         <input name="email" type="email" required placeholder="Email" className="border rounded-xl p-3" />
         <input name="phone" required placeholder="Phone" className="border rounded-xl p-3" />

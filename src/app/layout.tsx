@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Off We Go Charters",
     description: "Private fishing, island hops, and sunset cruises.",
-    images: ["/og.jpg"],
+    images: ["/og.png"],
   },
 };
 

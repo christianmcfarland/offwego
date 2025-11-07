@@ -1,5 +1,9 @@
 "use client";
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle"|"sending"|"ok"|"error">("idle");
@@ -15,8 +19,7 @@ export default function ContactPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (res.ok) setStatus("ok");
-      else setStatus("error");
+      setStatus(res.ok ? "ok" : "error");
     } catch {
       setStatus("error");
     }
@@ -34,30 +37,50 @@ export default function ContactPage() {
   return (
     <div className="py-10">
       <h1 className="text-3xl font-bold">Request a Trip</h1>
-      <p className="mt-2 text-gray-700">
+      <p className="mt-2 text-muted-foreground">
         Share a few details and I’ll confirm tide-friendly times and pricing.
       </p>
 
-      <form onSubmit={onSubmit} className="mt-6 grid gap-4 max-w-xl">
+      <form onSubmit={onSubmit} className="mt-6 grid gap-5 max-w-xl">
+        <div>
+          <Label htmlFor="name">Your name</Label>
+          <Input id="name" name="name" required />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div>
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" name="email" type="email" required />
+          </div>
+          <div>
+            <Label htmlFor="phone">Phone</Label>
+            <Input id="phone" name="phone" required />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div>
+            <Label htmlFor="partySize">Party size</Label>
+            <Input id="partySize" name="partySize" inputMode="numeric" />
+          </div>
+          <div>
+            <Label htmlFor="preferredDate">Preferred date(s)</Label>
+            <Input id="preferredDate" name="preferredDate" placeholder="e.g., Dec 12 morning" />
+          </div>
+        </div>
+        <div>
+          <Label htmlFor="tripType">Trip type</Label>
+          <Input id="tripType" name="tripType" placeholder="Sunset / Fishing / Island Hop / Other" />
+        </div>
+        <div>
+          <Label htmlFor="notes">Notes</Label>
+          <Textarea id="notes" name="notes" placeholder="Anything special you want to do or see?" />
+        </div>
+
+        {/* Honeypot */}
         <input name="company" className="hidden" tabIndex={-1} autoComplete="off" />
-        <input name="name" required placeholder="Your name" className="border rounded-xl p-3" />
-        <input name="email" type="email" required placeholder="Email" className="border rounded-xl p-3" />
-        <input name="phone" required placeholder="Phone" className="border rounded-xl p-3" />
-        <input name="partySize" placeholder="Party size" className="border rounded-xl p-3" />
-        <input name="preferredDate" placeholder="Preferred date(s)" className="border rounded-xl p-3" />
-        <select name="tripType" className="border rounded-xl p-3">
-          <option>Sunset Cruise</option>
-          <option>Inshore Fishing</option>
-          <option>Island Hop & Swim</option>
-          <option>Other</option>
-        </select>
-        <textarea name="notes" placeholder="Notes" className="border rounded-xl p-3" />
-        <button
-          disabled={status==="sending"}
-          className="rounded-xl border px-5 py-3 font-medium hover:bg-white"
-        >
-          {status==="sending" ? "Sending..." : "Send request"}
-        </button>
+
+        <div>
+          <Button isLoading={status==="sending"}>Send request</Button>
+        </div>
         {status==="error" && <p className="text-sm text-red-600">Something went wrong. Try again.</p>}
       </form>
     </div>

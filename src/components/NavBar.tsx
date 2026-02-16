@@ -1,30 +1,25 @@
-"use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "Our Story" },
-  { href: "/contact", label: "Contact" },
-  { href: "/policies", label: "Policies" },
+  { href: "/#gallery", label: "Gallery" },
+  // { href: "/#story", label: "Story" },
+  { href: "/#operate", label: "How We Operate" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export default function NavBar() {
-  const pathname = usePathname();
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b">
-      <nav className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
+      <nav className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-4">
         <Link href="/" className="font-bold tracking-tight text-xl">
-          Off We Go Charters
+          Off We Go
         </Link>
-        <ul className="flex gap-6 text-sm">
-          {links.map(l => (
-            <li key={l.href}>
-              <Link
-                href={l.href}
-                className={`hover:underline ${pathname === l.href ? "underline" : ""}`}
-              >
-                {l.label}
+
+        <ul className="flex flex-wrap gap-4 text-xs md:text-sm">
+          {links.map((link) => (
+            <li key={link.href}>
+              <Link href={link.href} className="text-muted-foreground hover:text-foreground transition-colors">
+                {link.label}
               </Link>
             </li>
           ))}
